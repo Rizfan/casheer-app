@@ -36,4 +36,11 @@ export interface User {
     updated_at: string;
 }
 
+export interface Menus {
+    id: string;
+    name: string;
+    image?: string;
+    price: number;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;

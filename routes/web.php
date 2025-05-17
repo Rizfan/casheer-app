@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -7,9 +9,17 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
+
+Route::resource('menu', MenuController::class);
+Route::resource('transaction', TransactionController::class);
+
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+Route::get('/print-preview', function () {
+    return Inertia::render('transaction/PrintPreview');
+})->name('print-preview');
+
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
