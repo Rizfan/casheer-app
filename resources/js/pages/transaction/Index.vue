@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePage, Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { type Menus } from '@/types';
 import AppLayout from '@/layouts/AppLayout.vue';
 import {
@@ -21,8 +21,6 @@ import { Button } from '@/components/ui/button';
 import { LoaderCircle } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import InputError from '@/components/InputError.vue';
 import {
     Dialog,
     DialogContent,
@@ -55,14 +53,18 @@ function addToCart(menu: any) {
         cartItems.value.push({
             id: menu.id,
             name: menu.name,
-            price: menu.price,
+            price: parseHarga(menu.price),
             image: menu.image,
             quantity: 1,
-            subtotal: menu.price,
+            subtotal: parseHarga(menu.price),
         });
     }
+    console.log('cartItems:', cartItems.value);
 }
-
+function parseHarga(rupiah: string | number): number {
+    if (typeof rupiah === 'number') return rupiah;
+    return Number(rupiah.replace(/[^0-9]/g, ''));
+}
 const totalPrice = computed(() =>
     cartItems.value.reduce((total, item) => total + item.subtotal, 0)
 );
@@ -172,7 +174,7 @@ function printBill() {
                     v-for="(menu, index) in menus" :key="menu.id" @click="addToCart(menu)">
                     <img :src="`/storage/${menu.image}`" :alt="menu.name"
                         class="w-full h-36 object-cover justify-self-center rounded-t" />
-                    <div class="p-4 text-center">
+                    <div class="p-4 text-center dark:text-black">
                         <h5 class="text-sm mb-3">{{ menu.name }}</h5>
                         <h3>{{ formatRupiah(menu.price) }}</h3>
                     </div>
@@ -212,8 +214,12 @@ function printBill() {
                     <CardFooter class="w-full flex flex-col mt-4 gap-2">
                         <Button @click="cartItems = []" variant="outline" class="w-full flex-auto">Clear Cart</Button>
                         <div class="flex flex-row gap-2 w-full">
-                            <Button @click="saveBill" class="w-full flex-auto">Save Bill</Button>
-                            <Button @click="printBill" class="w-full flex-auto">Print Bill</Button>
+                            <Button @click="saveBill" class="w-full flex-auto">
+                                <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" /> Save Bill
+                            </Button>
+                            <Button @click="printBill" class="w-full flex-auto">
+                                Print Bill
+                            </Button>
                         </div>
                         <Dialog>
                             <DialogTrigger asChild>
@@ -267,6 +273,8 @@ function printBill() {
                                                 <div class="w-full flex-auto">
                                                     <Button type="button" variant="destructive" @click="charge"
                                                         class="w-full">
+                                                        <LoaderCircle v-if="form.processing"
+                                                            class="h-4 w-4 animate-spin" />
                                                         Charge
                                                     </Button>
                                                 </div>

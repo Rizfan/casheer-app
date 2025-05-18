@@ -40,7 +40,8 @@ class MenuController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $path = $image->storeAs('images', $imageName, 'public');
+            $image->move(public_path('storage/images/'), $imageName);
+            $path = 'images/' . $imageName;
 
             Menu::create([
                 'name' => $request->name,

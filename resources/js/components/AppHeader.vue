@@ -54,7 +54,7 @@ const mainNavItems: NavItem[] = [
         <div class="border-b border-sidebar-border/80  bg-[#00acee]">
             <div class="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
 
-                <Link :href="route('dashboard')" class="flex items-center gap-x-2">
+                <Link :href="route('menu.index')" class="flex items-center gap-x-2">
                 <AppLogo />
                 </Link>
             </div>
