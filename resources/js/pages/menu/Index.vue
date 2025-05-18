@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from '
 
 interface Props { menus: Menus; }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 import { Card, CardContent, CardHeader, } from '@/components/ui/card';
 

@@ -171,7 +171,7 @@ function printBill() {
         <div class="flex lg:flex-row flex-col justify-between items-start gap-4 mt-4">
             <div class="w-full lg:w-3/5 grid lg:grid-cols-3 grid-cols-1 gap-8 justify-">
                 <div class="bg-white shadow rounded w-full ease-in-out transform hover:scale-102 transition-all "
-                    v-for="(menu, index) in menus" :key="menu.id" @click="addToCart(menu)">
+                    v-for="menu in menus" :key="menu.id" @click="addToCart(menu)">
                     <img :src="`/storage/${menu.image}`" :alt="menu.name"
                         class="w-full h-36 object-cover justify-self-center rounded-t" />
                     <div class="p-4 text-center dark:text-black">
@@ -225,7 +225,7 @@ function printBill() {
                             <DialogTrigger asChild>
                                 <Button variant="destructive" class="w-full flex-auto">Charge {{
                                     formatRupiah(totalPrice)
-                                }}</Button>
+                                    }}</Button>
                             </DialogTrigger>
                             <DialogContent class="w-full max-w-4xl lg:min-w-[900px] px-6 py-4">
                                 <DialogHeader>
